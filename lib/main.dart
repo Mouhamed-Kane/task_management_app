@@ -14,12 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => TaskProvider(),
-      // create: (context) {
-      //   final provider = TaskProvider();
-      //   provider.loadTasks(); // Charger les tâches au démarrage
-      //   return provider;
-      // },
+      create: (context) {
+        final provider = TaskProvider();
+        provider.loadTasks(); // Chargement des tâches au démarrage
+        return provider;
+      },
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Gestionnaire de Tâches',

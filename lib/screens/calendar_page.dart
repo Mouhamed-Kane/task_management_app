@@ -74,7 +74,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     final task = tasksForSelectedDay[index];
                     return ListTile(
                       title: Text(task.title),
-                      subtitle: Text(task.description ?? ''),
+                      subtitle: Text(task.description),
                       trailing: Icon(
                         Icons.circle,
                         color: task.priority == 'élevé'

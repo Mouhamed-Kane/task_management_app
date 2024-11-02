@@ -26,10 +26,9 @@ class CompletedTasksPage extends StatelessWidget {
               return ListTile(
                 title: Text(
                   task.title,
-                  style:
-                      const TextStyle(decoration: TextDecoration.lineThrough),
+                  style: const TextStyle(decoration: TextDecoration.lineThrough),
                 ),
-                subtitle: Text(task.description ?? ''),
+                subtitle: Text(task.description),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () => taskProvider.deleteTask(task.id),
@@ -52,10 +51,8 @@ class CompletedTasksPage extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'En cours'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.done_all), label: 'Terminées'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: 'Calendrier'),
+          BottomNavigationBarItem(icon: Icon(Icons.done_all), label: 'Terminées'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendrier'),
         ],
         currentIndex: 2,
         selectedItemColor: Colors.purple,
@@ -72,8 +69,7 @@ class CompletedTasksPage extends StatelessWidget {
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const TasksInProgressPage()),
+                MaterialPageRoute(builder: (context) => const TasksInProgressPage()),
               );
               break;
             case 3:

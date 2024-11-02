@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/task_provider.dart';
+import '../models/task.dart';
 import 'add_task_page.dart';
 import 'home_page.dart';
 import 'completed_tasks_page.dart';
@@ -18,17 +19,30 @@ class TasksInProgressPage extends StatelessWidget {
       ),
       body: Consumer<TaskProvider>(
         builder: (context, taskProvider, child) {
-          final incompleteTasks = taskProvider.incompleteTasks;
+          // Filtrer les tâches non terminées
+          final incompleteTasks = taskProvider.tasks.where((task) => !task.isCompleted).toList();
+          
           return ListView.builder(
             itemCount: incompleteTasks.length,
             itemBuilder: (context, index) {
               final task = incompleteTasks[index];
               return ListTile(
                 title: Text(task.title),
-                subtitle: Text(task.description ?? ''),
+                subtitle: Text(task.description),
                 trailing: IconButton(
                   icon: const Icon(Icons.check),
-                  onPressed: () => taskProvider.toggleTaskStatus(task.id),
+                  onPressed: () {
+                    // Mettre à jour le statut de la tâche
+                    final updatedTask = Task(
+                      id: task.id,
+                      title: task.title,
+                      description: task.description,
+                      dueDate: task.dueDate,
+                      priority: task.priority,
+                      isCompleted: true,
+                    );
+                    taskProvider.updateTask(updatedTask);
+                  },
                 ),
               );
             },
@@ -48,10 +62,8 @@ class TasksInProgressPage extends StatelessWidget {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: 'En cours'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.done_all), label: 'Terminées'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today), label: 'Calendrier'),
+          BottomNavigationBarItem(icon: Icon(Icons.done_all), label: 'Terminées'),
+          BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: 'Calendrier'),
         ],
         currentIndex: 1,
         selectedItemColor: Colors.purple,
@@ -68,8 +80,7 @@ class TasksInProgressPage extends StatelessWidget {
             case 2:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const CompletedTasksPage()),
+                MaterialPageRoute(builder: (context) => const CompletedTasksPage()),
               );
               break;
             case 3:
